@@ -2,7 +2,10 @@ import requests
 import pandas as pd
 import os
 import settings
+from pathlib import Path
 URL = settings.URL
+CSV_PATH = settings.CSV_PATH
+CSV_FILE = settings.CSV_FILE
 
 
 def fetch_data(url):
@@ -34,9 +37,13 @@ def check_for_hits(df: pd.DataFrame):
     (new_hits, removed).  The CSV is overwritten **only** when a change
     is detected.
     """
+    file_path = os.path.join(CSV_PATH, CSV_FILE)
+    # 0. check if the CSV dir exists, create it if not
+    if not os.path.exists(CSV_PATH):
+        os.makedirs(CSV_PATH)
     # 1. load previous snapshot (same column order & dtypes if possible)
-    if os.path.exists(settings.PREVIOUS_CSV):
-        old = pd.read_csv(settings.PREVIOUS_CSV)
+    if os.path.exists(file_path):
+        old = pd.read_csv(file_path)
     else:
         old = pd.DataFrame(columns=df.columns)   # empty but same cols
 
@@ -55,7 +62,7 @@ def check_for_hits(df: pd.DataFrame):
 
     # 3. persist only when something changed
     if not new_hits.empty or not removed.empty:
-        df.to_csv(settings.PREVIOUS_CSV, index=False)
+        df.to_csv(file_path, index=False)
 
     return new_hits, removed
 

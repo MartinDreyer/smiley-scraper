@@ -1,4 +1,5 @@
-PREVIOUS_CSV = 'csv/old.csv'
+CSV_PATH = 'csv'
+CSV_FILE = 'smiley.csv'
 FILTER = {
     'upper_limit': 6000,
     'lower_limit': 4999,
