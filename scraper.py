@@ -64,6 +64,18 @@ def check_for_hits(df: pd.DataFrame):
     if not new_hits.empty or not removed.empty:
         df.to_csv(file_path, index=False)
 
+    if not removed.empty:
+        removed.to_csv(os.path.join(CSV_PATH, "removed.csv"), index=False)
+    else:
+        pd.DataFrame(columns=df.columns).to_csv(
+            os.path.join(CSV_PATH, "removed.csv"), index=False)
+
+    if not new_hits.empty:
+        new_hits.to_csv(os.path.join(CSV_PATH, "new.csv"), index=False)
+    else:
+        pd.DataFrame(columns=df.columns).to_csv(
+            os.path.join(CSV_PATH, "new.csv"), index=False)
+
     return new_hits, removed
 
 
