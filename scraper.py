@@ -43,7 +43,7 @@ def check_for_hits(df: pd.DataFrame):
         os.makedirs(CSV_PATH)
     # 1. load previous snapshot (same column order & dtypes if possible)
     if os.path.exists(file_path):
-        old = pd.read_csv(file_path)
+        old = pd.read_csv(file_path, sep=";")
     else:
         old = pd.DataFrame(columns=df.columns)   # empty but same cols
 
@@ -62,19 +62,21 @@ def check_for_hits(df: pd.DataFrame):
 
     # 3. persist only when something changed
     if not new_hits.empty or not removed.empty:
-        df.to_csv(file_path, index=False)
+        df.to_csv(file_path, index=False, sep=";")
 
     if not removed.empty:
-        removed.to_csv(os.path.join(CSV_PATH, "removed.csv"), index=False)
+        removed.to_csv(os.path.join(CSV_PATH, "removed.csv"),
+                       index=False, sep=";")
     else:
         pd.DataFrame(columns=df.columns).to_csv(
-            os.path.join(CSV_PATH, "removed.csv"), index=False)
+            os.path.join(CSV_PATH, "removed.csv"), index=False, sep=";")
 
     if not new_hits.empty:
-        new_hits.to_csv(os.path.join(CSV_PATH, "new.csv"), index=False)
+        new_hits.to_csv(os.path.join(CSV_PATH, "new.csv"),
+                        index=False, sep=";")
     else:
         pd.DataFrame(columns=df.columns).to_csv(
-            os.path.join(CSV_PATH, "new.csv"), index=False)
+            os.path.join(CSV_PATH, "new.csv"), index=False, sep=";")
 
     return new_hits, removed
 
