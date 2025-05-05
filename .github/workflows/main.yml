@@ -31,3 +31,12 @@ jobs:
           committer_name: Automated
           committer_email: actions@users.noreply.github.com
           message: Latest data
+
+      - name: Notify webhook
+        if: ${{ success() }}
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+        run: |
+          curl -X POST "$WEBHOOK_URL" \
+            -H 'Content-Type: application/json' \
+            -d '{"status":"success","timestamp":"'"$(date --utc +%FT%TZ)"'"}'
