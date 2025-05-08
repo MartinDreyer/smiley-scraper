@@ -1,4 +1,7 @@
 name: Scrape
+permissions:
+  contents: write      # allow the GITHUB_TOKEN to push commits
+
 
 on:
   schedule:
