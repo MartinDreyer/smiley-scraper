@@ -2,7 +2,6 @@ name: Scrape
 permissions:
   contents: write      # allow the GITHUB_TOKEN to push commits
 
-
 on:
   schedule:
     - cron: '0 1 * * *'   # 01:00 UTC every day
